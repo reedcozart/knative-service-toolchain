@@ -1,0 +1,59 @@
+version: '2'
+messages:
+  $i18n: locales.yml
+template:
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
+  header: '![](toolchain.svg?localize)'
+  icon: knative.svg
+  required:
+    - hello-world-build
+    - hello-world-repo
+  info:
+    git url: >-
+      [https://github.com/gee4vee/knative-serving-toolchain](https://github.com/gee4vee/knative-serving-toolchain)
+    git branch: >-
+      [master](https://github.com/gee4vee/knative-serving-toolchain/tree/master)
+toolchain:
+  name: 'knative-serving-toolchain-{{timestamp}}'
+  template:
+    getting_started:
+      $ref: "#/messages/template.gettingStarted" 
+services:
+  hello-world-repo:
+    service_id: hostedgit
+    parameters:
+      repo_name: 'hello-knative-serving-{{timestamp}}'
+      repo_url: 'https://github.com/gee4vee/hello-knative-serving'
+      type: clone
+      has_issues: true
+      enable_traceability: true
+  hello-world-build:
+    service_id: pipeline
+    parameters:
+      services:
+        - hello-world-repo
+      name: 'hello-world-{{timestamp}}'
+      ui-pipeline: true
+      configuration:
+        content:
+          $text: pipeline.yml
+        env:
+          GIT_REPO: hello-world-repo
+          CF_APP_NAME: '{{form.pipeline.parameters.app-name}}'
+          PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  webide:
+    service_id: orion
+form:
+  pipeline:
+    parameters:
+      app-name: '{{services.hello-world-repo.parameters.repo_name}}'
+    schema:
+      $ref: deploy.json

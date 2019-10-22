@@ -1,0 +1,74 @@
+version: '2'
+messages:
+  $i18n: locales.yml
+template:
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
+  header: '![](toolchain.svg?localize)'
+  icon: knative.svg
+  required:
+    - build
+    - repo
+  info:
+    git url: >
+      "[" + $env.repository + "]" +
+        "(" + $env.repository + ")"
+    git branch: >
+      "[" + $env.branch + "]" +
+        "(" + $env.repository +
+          "/tree/" + $env.branch + ")"
+toolchain:
+  name: 'knative-service-toolchain-{{timestamp}}'
+  template:
+    getting_started:
+      $ref: "#/messages/template.gettingStarted"
+services:
+  repo:
+    service_id: >
+      $env.source_provider ? $env.source_provider : 'hostedgit'
+    parameters:
+      repo_name: 'hello-knative-service-{{timestamp}}'
+      repo_url: >
+        $env.type === 'link' ? 
+          $env.app_repo : 'https://github.com/gee4vee/hello-knative-service'
+      source_repo_url: >
+        $env.type === 'fork' || $env.type === 'clone' ? 
+          $env.app_repo : 'https://github.com/gee4vee/hello-knative-service'
+      type: $env.type || 'clone'
+      has_issues: true
+      enable_traceability: true
+  build:
+    service_id: pipeline
+    parameters:
+      services:
+        - repo
+      name: '{{services.repo.parameters.repo_name}}'
+      ui-pipeline: true
+      configuration:
+        content:
+          $text: pipeline.yml
+        env:
+          GIT_REPO: repo
+          APP_NAME: '{{form.pipeline.parameters.app-name}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.app-name}}'
+          APP_PORT: '{{form.pipeline.parameters.app-port}}'
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+          PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
+          PROD_RESOURCE_GROUP: '{{form.pipeline.parameters.prod-resource-group}}'
+          PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
+          PROD_CLUSTER_NAMESPACE: '{{form.pipeline.parameters.prod-cluster-namespace}}'
+        execute: true
+  webide:
+    service_id: orion
+form:
+  pipeline:
+    parameters:
+      app-name: '{{services.repo.parameters.repo_name}}'
+      app-port: '80'
+      prod-cluster-namespace: default
+    schema:
+      $ref: deploy.json
