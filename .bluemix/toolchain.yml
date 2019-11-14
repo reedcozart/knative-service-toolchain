@@ -32,10 +32,10 @@ services:
       repo_name: 'hello-knative-service-{{timestamp}}'
       repo_url: >
         $env.type === 'link' ? 
-          $env.app_repo : 'https://github.com/gee4vee/hello-knative-service'
+          $env.app_repo : 'https://github.com/open-toolchain/hello-knative-service'
       source_repo_url: >
         $env.type === 'fork' || $env.type === 'clone' ? 
-          $env.app_repo : 'https://github.com/gee4vee/hello-knative-service'
+          $env.app_repo : 'https://github.com/open-toolchain/hello-knative-service'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
@@ -68,7 +68,7 @@ form:
   pipeline:
     parameters:
       app-name: '{{services.repo.parameters.repo_name}}'
-      app-port: '80'
+      app-port: '8080'
       prod-cluster-namespace: default
     schema:
       $ref: deploy.json
