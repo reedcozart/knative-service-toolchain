@@ -68,7 +68,7 @@ form:
   pipeline:
     parameters:
       app-name: '{{services.repo.parameters.repo_name}}'
-      app-port: '80'
+      app-port: '8080'
       prod-cluster-namespace: default
     schema:
       $ref: deploy.json
