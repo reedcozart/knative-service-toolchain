@@ -13,11 +13,20 @@ You can continuously deliver a secure Knative Service container app to a Kuberne
 * Online editing
 * Knative deployment to the IBM Kubernetes Service
 
-1. To get started, click the following button:
+## Prerequisites
+* Depending on your [IBM Cloud account type](https://cloud.ibm.com/registration), access to certain resources might be limited or constrained. Depending on your plan limits, certain capabilities required by this toolchain might not be available.
+* Install the [IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
+* Create a [standard Kubernetes cluster](https://cloud.ibm.com/kubernetes/catalog/cluster) with 3 worker nodes that each have 4 cores and 16 GB memory (b3c.4x16) or more. For more information, see [Creating a standard classic cluster in the console](https://cloud.ibm.com/docs/containers?topic=containers-clusters#clusters_ui). Ensure that you note the total monthly cost before you create the cluster.
+* Install the [Istio add-on](https://cloud.ibm.com/docs/containers?topic=containers-istio).
+* Install the [Knative add-on](https://cloud.ibm.com/docs/containers?topic=containers-serverless-apps-knative#knative-setup).
+
+1. To get started, click **Create toolchain**:
 <br> [![Create toolchain](https://cloud.ibm.com/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https%3A%2F%2Fgithub.com%2Fopen-toolchain%2Fknative-service-toolchain&env_id=ibm:yp:us-south)
 2. You can use the default settings, or make changes as needed.
-3. Under **Tool Integrations**, select **Delivery Pipeline**, and enter your **IBM Cloud API key** or select to the **Create** button to generate a new one.
-4. Click **Create**.
+3. Under **Tool Integrations**, select **Delivery Pipeline**.
+4. Enter your **IBM Cloud API key**, or generate a new API key by clicking **Create**.
+5. Confirm the container registry region, container registry namespace, and cluster information.
+6. Click **Create**.
 
 The following best practices are implemented automatically upon app creation:
 - Sanity check the Dockerfile before image creation.
