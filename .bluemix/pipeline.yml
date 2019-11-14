@@ -177,6 +177,12 @@ stages:
           exit 1
       fi
 
+      KNATIVE_RUNNING=$(kubectl get pods --namespace knative-serving -o json | jq '.items|length')
+      if [ "0" == $KNATIVE_RUNNING ]; then
+          echo "Knative is required but is not running in this cluster. Ensure that the cluster's workers meet the minimum requirements for Istio. Install the Knative add-on and retry. Note that the Knative add-on is not supported on lite clusters."
+          exit 1
+      fi
+
       echo "Configuring cluster namespace"
       if kubectl get namespace ${CLUSTER_NAMESPACE}; then
         echo -e "Namespace ${CLUSTER_NAMESPACE} found."
