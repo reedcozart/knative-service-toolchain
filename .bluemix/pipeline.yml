@@ -262,7 +262,7 @@ stages:
       fi
       echo "Application is available"
       echo "=========================================================="
-      echo -e "View the application at: http://$APPLICATION_URL"
+      echo -e "View the application at: $APPLICATION_URL"
 
       echo "export IP_ADDR=${IP_ADDR}" >> kube_vars.sh
       echo "export PORT=${PORT}" >> kube_vars.sh
