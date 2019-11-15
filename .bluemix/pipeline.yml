@@ -132,10 +132,6 @@ stages:
   - name: CLUSTER_NAMESPACE
     value: ${PROD_CLUSTER_NAMESPACE}
     type: text
-  - name: SERVICE_FILE_TEMPLATE
-    value:
-      $text: service.yml.template
-    type: text
   - name: SERVICE_FILE_UPDATE_INSTRUCTIONS
     value:
       $text: service_update_instructions.yml
@@ -203,11 +199,11 @@ stages:
       echo "=========================================================="
       echo "CHECKING SERVICE.YML manifest"
       if [ ! -f ${SERVICE_FILE} ]; then
-        echo -e "Knative service file '${SERVICE_FILE}' not found. It will be generated."
-        echo "${SERVICE_FILE_TEMPLATE}" | sed -e "s/REGISTRY_URL/${REGISTRY_URL}/g" -e "s/REGISTRY_NAMESPACE/${REGISTRY_NAMESPACE}/g" -e "s/IMAGE_NAME/${IMAGE_NAME}/g" -e "s/CLUSTER_NAMESPACE/${CLUSTER_NAMESPACE}/g" -e "s/APP_PORT/${APP_PORT}/g" > ${SERVICE_FILE}
+        echo -e "Knative service file '${SERVICE_FILE}' not found. Ensure a Knative service definition file named '${SERVICE_FILE}' is located at the project's root directory. Alternatively, change the SERVICE_FILE environment property in the Deploy stage configuration."
+        exit 1
       else
         echo "UPDATING service manifest with image information"
-        echo "${SERVICE_FILE_UPDATE_INSTRUCTIONS}" | sed -e "s/REGISTRY_URL/${REGISTRY_URL}/g" -e "s/REGISTRY_NAMESPACE/${REGISTRY_NAMESPACE}/g" -e "s/IMAGE_NAME/${IMAGE_NAME}/g" -e "s/APP_PORT/${APP_PORT}/g" > ${SERVICE_FILE_UPDATE_INSTRUCTIONS_FILE}
+        echo "${SERVICE_FILE_UPDATE_INSTRUCTIONS}" | sed -e "s/REGISTRY_URL/${REGISTRY_URL}/g" -e "s/REGISTRY_NAMESPACE/${REGISTRY_NAMESPACE}/g" -e "s/IMAGE_NAME/${IMAGE_NAME}/g" > ${SERVICE_FILE_UPDATE_INSTRUCTIONS_FILE}
         echo "Service file update instructions:"
         cat ${SERVICE_FILE_UPDATE_INSTRUCTIONS_FILE}
         IMAGE_REPOSITORY=${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}
