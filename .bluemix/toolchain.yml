@@ -53,7 +53,6 @@ services:
           GIT_REPO: repo
           APP_NAME: '{{form.pipeline.parameters.app-name}}'
           IMAGE_NAME: '{{form.pipeline.parameters.app-name}}'
-          APP_PORT: '{{form.pipeline.parameters.app-port}}'
           REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
           REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
           API_KEY: '{{form.pipeline.parameters.api-key}}'
@@ -68,7 +67,6 @@ form:
   pipeline:
     parameters:
       app-name: '{{services.repo.parameters.repo_name}}'
-      app-port: '8080'
       prod-cluster-namespace: default
     schema:
       $ref: deploy.json

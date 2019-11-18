@@ -92,16 +92,9 @@
             },
             "type": "string",
             "pattern": "^[a-z0-9_]"
-        },
-        "app-port": {
-            "description": {
-                "$ref": "#/messages/deploy.appPortDescription"
-            },
-            "type": "string",
-            "pattern": "^[0-9]"
         }
     },
-    "required": ["app-name", "app-port", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace"],
+    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace"],
     "form": [{
             "type": "validator",
             "url": "/devops/validator/validator-v1.html"
@@ -112,13 +105,6 @@
                 "$ref": "#/messages/deploy.appName"
             },
             "key": "app-name"
-        }, {
-            "type": "text",
-            "readonly": false,
-            "title": {
-                "$ref": "#/messages/deploy.appPort"
-            },
-            "key": "app-port"
         }, {
             "type": "password",
             "readonly": false,
