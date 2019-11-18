@@ -69,7 +69,17 @@ services:
 form:
   pipeline:
     parameters:
-      app-name: '{{services.repo.parameters.repo_name}}'
-      prod-cluster-namespace: default
+      app-name: >
+        $env.prodAppName ?
+          '{{prodAppName}}' : '{{services.repo.parameters.repo_name}}'
+      prod-cluster-namespace: >
+        $env.prodClusterNamespace ?
+          '{{prodClusterNamespace}}' : default
+      registry-region: '{{registryRegion}}'
+      registry-namespace: '{{registryNamespace}}'
+      api-key: '{{apiKey}}'
+      prod-region: '{{prodRegion}}'
+      prod-resource-group: '{{prodResourceGroup}}'
+      prod-cluster-name: '{{prodClusterName}}'
     schema:
       $ref: deploy.json
