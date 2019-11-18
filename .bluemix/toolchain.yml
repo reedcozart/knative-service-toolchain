@@ -74,7 +74,7 @@ form:
           '{{appName}}' : '{{services.repo.parameters.repo_name}}'
       prod-cluster-namespace: >
         $env.prodClusterNamespace ?
-          '{{prodClusterNamespace}}' : default
+          '{{prodClusterNamespace}}' : prod
       registry-region: '{{registryRegion}}'
       registry-namespace: '{{registryNamespace}}'
       api-key: '{{apiKey}}'
