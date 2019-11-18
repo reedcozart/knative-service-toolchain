@@ -16,11 +16,13 @@ template:
       "[" + $env.repository + "]" +
         "(" + $env.repository + ")"
     git branch: >
-      "[" + $env.branch + "]" +
-        "(" + $env.repository +
-          "/tree/" + $env.branch + ")"
+        $env.branch ?
+          '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
+          '[master]('+ $env.repository + '/tree/master)
 toolchain:
-  name: 'knative-service-toolchain-{{timestamp}}'
+  name: >
+    $env.toolchainName ? '{{toolchainName}}' :
+      'knative-service-toolchain-{{timestamp}}'
   template:
     getting_started:
       $ref: "#/messages/template.gettingStarted"
@@ -29,13 +31,14 @@ services:
     service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
-      repo_name: 'hello-knative-service-{{timestamp}}'
+      repo_name: '{{toolchain.name}}'
       repo_url: >
-        $env.type === 'link' ? 
-          $env.app_repo : 'https://github.com/open-toolchain/hello-knative-service'
+        $env.type === 'link' ? $env.app_repo :
+          $env.sourceZipUrl ? '{{sourceZipUrl}}' :
+            'https://github.com/open-toolchain/hello-knative-service'
       source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ? 
-          $env.app_repo : 'https://github.com/open-toolchain/hello-knative-service'
+        $env.type === 'fork' || $env.type === 'clone' ? $env.app_repo :
+          $env.sourceZipUrl ? '{{sourceZipUrl}}' : 'https://github.com/open-toolchain/hello-knative-service'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
