@@ -70,8 +70,8 @@ form:
   pipeline:
     parameters:
       app-name: >
-        $env.prodAppName ?
-          '{{prodAppName}}' : '{{services.repo.parameters.repo_name}}'
+        $env.appName ?
+          '{{appName}}' : '{{services.repo.parameters.repo_name}}'
       prod-cluster-namespace: >
         $env.prodClusterNamespace ?
           '{{prodClusterNamespace}}' : default
