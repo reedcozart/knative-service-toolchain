@@ -1,2 +1,2 @@
 metadata.name: IMAGE_NAME
-spec.template.spec.containers[0].image: REGISTRY_URL/REGISTRY_NAMESPACE/IMAGE_NAME
+spec.template.spec.containers[0].image: REGISTRY_URL/REGISTRY_NAMESPACE/IMAGE_NAME:BUILD_NUMBER
