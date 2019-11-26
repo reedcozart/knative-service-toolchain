@@ -286,6 +286,9 @@ stages:
       if [ "$(curl -is $APPLICATION_URL --connect-timeout 3 --max-time 5 --retry 2 --retry-max-time 30 | head -n 1 | grep 200)" != "" ]; then
         echo "Successfully reached health endpoint at $APPLICATION_URL"
         echo "====================================================================="
+      elif [ "$(curl -is "$APPLICATION_URL/health" --connect-timeout 3 --max-time 5 --retry 2 --retry-max-time 30 | head -n 1 | grep 200)" != "" ]; then 
+        echo "Successfully reached health endpoint at $APPLICATION_URL/health"
+        echo "====================================================================="
       else
         echo "Could not reach health endpoint: $APPLICATION_URL"
         exit 1;
